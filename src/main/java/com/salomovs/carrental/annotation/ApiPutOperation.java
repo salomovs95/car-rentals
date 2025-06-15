@@ -1,8 +1,7 @@
-package com.salomovs.carrental.config.annotations;
-
+package com.salomovs.carrental.annotation;
 
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static  java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -22,13 +21,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @ApiResponses({
   @ApiResponse(
     responseCode="200",
-    content=@Content(
-      mediaType="application/json",
-      contentSchema=@Schema( implementation=Map.class )
-    )
-  ),
-  @ApiResponse(
-    responseCode="201",
     content=@Content(
       mediaType="application/json",
       contentSchema=@Schema( implementation=Map.class )
@@ -56,7 +48,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
     )
   )
 })
-public @interface ApiPostOperation {
+public @interface ApiPutOperation {
   @AliasFor(annotation=Operation.class, attribute="summary")
   String summary();
 }
