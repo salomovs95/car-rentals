@@ -30,6 +30,6 @@ replay_pid*
 .settings
 target/
 
-!.mvn/wrapper/maven-wrapper.jar
+.mvn/
 !**/src/main/**/target/
 !**/src/test/**/target/
