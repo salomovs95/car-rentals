@@ -1,4 +1,5 @@
-package com.salomovs.carrental.config.annotations;
+package com.salomovs.carrental.annotation;
+
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -27,7 +28,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
     )
   ),
   @ApiResponse(
+    responseCode="201",
+    content=@Content(
+      mediaType="application/json",
+      contentSchema=@Schema( implementation=Map.class )
+    )
+  ),
+  @ApiResponse(
     responseCode="404",
+    content=@Content(
+      mediaType="application/json",
+      contentSchema=@Schema( implementation=Map.class )
+    )
+  ),
+  @ApiResponse(
+    responseCode="400",
     content=@Content(
       mediaType="application/json",
       contentSchema=@Schema( implementation=Map.class )
@@ -41,7 +56,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
     )
   )
 })
-public @interface ApiGetOperation {
+public @interface ApiPostOperation {
   @AliasFor(annotation=Operation.class, attribute="summary")
   String summary();
 }
