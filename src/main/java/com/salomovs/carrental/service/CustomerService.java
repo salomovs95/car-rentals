@@ -1,8 +1,11 @@
 package com.salomovs.carrental.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salomovs.carrental.model.dto.NewCustomerDto;
+import com.salomovs.carrental.model.dto.PageableResponse;
 import com.salomovs.carrental.model.entity.Customer;
 import com.salomovs.carrental.model.repository.CustomerRepository;
 
@@ -24,5 +27,10 @@ public class CustomerService {
 
     Integer newCustomerId = customerRepository.save(customer).getId();
     log.debug(String.format("New customer registered successfully under ID: %d", newCustomerId));
+  }
+
+  public PageableResponse<Customer> retrieveCustomersList(Pageable page) {
+    Page<Customer> res = customerRepository.findAll(page);
+    return new PageableResponse<Customer>(res.hasNext(), res.hasPrevious(), res.getContent());
   }
 }
