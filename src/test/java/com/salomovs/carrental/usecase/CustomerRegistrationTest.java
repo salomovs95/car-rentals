@@ -1,7 +1,6 @@
 package com.salomovs.carrental.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +18,7 @@ import com.salomovs.carrental.model.entity.Customer;
 import com.salomovs.carrental.model.repository.CustomerRepository;
 import com.salomovs.carrental.service.CustomerService;
 
-@SpringBootTest @Tag("CUSTTOMER") @TestInstance(Lifecycle.PER_CLASS)
+@SpringBootTest @Tag("CUSTOMER") @TestInstance(Lifecycle.PER_CLASS)
 public class CustomerRegistrationTest {
   @MockitoBean
   private CustomerRepository crMock;
