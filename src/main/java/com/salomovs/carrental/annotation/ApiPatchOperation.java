@@ -48,7 +48,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
     )
   )
 })
-public @interface ApiPutOperation {
+public @interface ApiPatchOperation {
   @AliasFor(annotation=Operation.class, attribute="summary")
   String summary();
 }
