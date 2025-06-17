@@ -48,6 +48,12 @@ public class CustomerController {
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
+  @GetMapping("/{customerId}") @ApiGetOperation(summary="Retrieves a customer's info")
+  public ResponseEntity<Customer> retrieveCustomerInfo(@PathVariable("customerId") Integer customerId) {
+    Customer customer = customerService.findCustomer(customerId);
+    return ResponseEntity.status(HttpStatus.OK).body(customer);
+  }
+
   @PatchMapping("/{customerId}") @ApiPatchOperation(summary="Update a given customer's infp")
   public ResponseEntity<Void> updateCustomer(@PathVariable("customerId") Integer customerId,
                                              @RequestBody UpdateCustomerDto body) {

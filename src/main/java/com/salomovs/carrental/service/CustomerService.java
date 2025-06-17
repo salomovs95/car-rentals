@@ -37,12 +37,17 @@ public class CustomerService {
   }
 
   public void updateCustomer(Integer customerId, UpdateCustomerDto dto) {
-    Customer customer = customerRepository.findById(customerId)
-                                          .orElseThrow(CustomerNotFoundException::new);
+    Customer customer = findCustomer(customerId);
     
     if (dto.email().isPresent()) customer.setEmail(dto.email().get());
     if (dto.phone().isPresent()) customer.setPhone(dto.phone().get());
 
     customerRepository.save(customer);
+  }
+
+  public Customer findCustomer(Integer customerId) {
+    Customer customer = customerRepository.findById(customerId)
+                                          .orElseThrow(CustomerNotFoundException::new);
+    return customer;
   }
 }
