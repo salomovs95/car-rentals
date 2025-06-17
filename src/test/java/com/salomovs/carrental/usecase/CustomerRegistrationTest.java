@@ -18,7 +18,7 @@ import com.salomovs.carrental.model.entity.Customer;
 import com.salomovs.carrental.model.repository.CustomerRepository;
 import com.salomovs.carrental.service.CustomerService;
 
-@SpringBootTest @Tag("CUSTOMER") @TestInstance(Lifecycle.PER_CLASS)
+@SpringBootTest @Tag("UNIT_TESTS") @TestInstance(Lifecycle.PER_CLASS)
 public class CustomerRegistrationTest {
   @MockitoBean
   private CustomerRepository crMock;

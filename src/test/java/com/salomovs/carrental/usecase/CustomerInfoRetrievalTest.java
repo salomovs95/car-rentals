@@ -1,9 +1,9 @@
 package com.salomovs.carrental.usecase;
 
+import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
@@ -17,13 +17,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import com.salomovs.carrental.exception.CustomerNotFoundException;
-import com.salomovs.carrental.model.dto.UpdateCustomerDto;
 import com.salomovs.carrental.model.entity.Customer;
 import com.salomovs.carrental.model.repository.CustomerRepository;
 import com.salomovs.carrental.service.CustomerService;
 
 @SpringBootTest @Tag("UNIT_TESTS") @TestInstance(Lifecycle.PER_CLASS)
-public class CustomerUpdateTest {
+public class CustomerInfoRetrievalTest {
   @MockitoBean
   private CustomerRepository crMock;
   private CustomerService customerService;
@@ -34,23 +33,20 @@ public class CustomerUpdateTest {
   }
 
   @Test
-  void UpdateCustomerSuccessfull() {
+  void FindACustomerSuccessfull() {
+    int customerId = 1864;
     when(crMock.findById(anyInt()))
-      .thenReturn(Optional.of(new Customer(998, "tax_id_001", "customer_name_001", "customer_001@email.com", "customer_phone_001")));
+      .thenReturn(Optional.of(new Customer(customerId, "customer_999_tax_id", "Customer 999", "customer_999@email.com", "customer_999_phone")));
 
-    UpdateCustomerDto mockDto = new UpdateCustomerDto(Optional.empty(), Optional.of("+00 555 777 0167"));
-   
-    assertDoesNotThrow(()->customerService.updateCustomer(998, mockDto));
+    assertDoesNotThrow(()->customerService.findCustomer(customerId));
   }
 
   @Test
-  void UpdateCustomerFailUserNotFound() {
+  void FindACustomerFails() {
+    int customerId = 1995;
     when(crMock.findById(anyInt()))
       .thenReturn(Optional.empty());
 
-    UpdateCustomerDto mockDto = new UpdateCustomerDto(Optional.empty(), Optional.of("+00 555 777 0167"));
-
-    assertThrows(CustomerNotFoundException.class, ()->customerService.updateCustomer(998, mockDto));
-
+    assertThrows(CustomerNotFoundException.class, ()->customerService.findCustomer(customerId));
   }
 }
