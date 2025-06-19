@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: test
+  datasource:
+    url: jdbc:h2:mem:carrentals
+  sql:
+    init:
+      mode: never
