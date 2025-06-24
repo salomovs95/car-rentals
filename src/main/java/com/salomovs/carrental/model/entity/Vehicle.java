@@ -26,8 +26,7 @@ public class Vehicle {
   private Integer dailyPrice;
   private Integer hourPrice;
 
-  @Embedded
-  @AttributeOverrides({
+  @Embedded @AttributeOverrides({
     @AttributeOverride(name="value", column=@Column(name="plate_number")),
     @AttributeOverride(name="country", column=@Column(name="plate_country"))
   })
@@ -35,7 +34,7 @@ public class Vehicle {
 
   @Override
   public String toString() {
-    String data = "{ id:%d, model:%s, brand:%s, hPrice:%d, dPrice:%d, plateNumber:%s, country:%s }";
-    return String.format(data, id, model, brand, hourPrice, dailyPrice, plate.getValue(), plate.getCountry());
+    String data = "{ id:%d, model:%s, brand:%s, hPrice:%d, dPrice:%d, plate:%s }";
+    return String.format(data, id, model, brand, hourPrice, dailyPrice, plate);
   }
 }
