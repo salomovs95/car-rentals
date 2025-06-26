@@ -11,4 +11,10 @@ import lombok.Setter;
 public class Plate {
   private String value;
   private String country;
+
+  @Override
+  public String toString() {
+    String data = "{ code:%s, country:%d }";
+    return String.format(data, value, country);
+  }
 }

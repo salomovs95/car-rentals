@@ -24,7 +24,7 @@ import com.salomovs.carrental.model.enums.RentalConstant;
 public class Rental {
   @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
-  
+
   private LocalDateTime rentAt;
   private LocalDateTime returnAt;
 
@@ -43,10 +43,14 @@ public class Rental {
     this.vehicle = vehicle;
   }
 
+  @Override
+  public String toString() {
+    String data = "{ id:%d, rent:%s, return:%s, customer:%s, vehicle:%s, amount:%d }";
+    return String.format(data, id, rentAt, returnAt, customer, vehicle, amountToPay);
+  }
+
   public static Double calculateInterval(Rental rental) {
-    if (rental.getReturnAt() == null) {
-      return Duration.between(rental.getRentAt(), LocalDateTime.now()).getSeconds() / RentalConstant.HOUR_SECONDS;
-    }
-    return Duration.between(rental.getRentAt(), rental.getReturnAt()).getSeconds()/RentalConstant.HOUR_SECONDS;
+    if (rental.getReturnAt() == null) return Duration.between(rental.getRentAt(), LocalDateTime.now()).getSeconds() / RentalConstant.HOUR_SECONDS;
+    return Duration.between(rental.getRentAt(), rental.getReturnAt()).getSeconds() / RentalConstant.HOUR_SECONDS;
   }
 }

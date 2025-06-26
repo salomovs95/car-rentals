@@ -28,4 +28,10 @@ public class Customer {
 
   @Column(unique=true)
   private String phone;
+
+  @Override
+  public String toString() {
+    String data = "{ id:%d, name:%s, tax-id:%s, email:%s, phone:%s }";
+    return String.format(data, id, fullName, taxId, email, phone);
+  }
 }
