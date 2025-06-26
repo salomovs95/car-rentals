@@ -2,7 +2,9 @@ package com.salomovs.carrental.service;
 
 import org.springframework.stereotype.Service;
 
+import com.salomovs.carrental.exception.VehicleNotFoundException;
 import com.salomovs.carrental.model.dto.NewVehicleDto;
+import com.salomovs.carrental.model.dto.UpdateVehicleDto;
 import com.salomovs.carrental.model.entity.Plate;
 import com.salomovs.carrental.model.entity.Vehicle;
 import com.salomovs.carrental.model.repository.VehicleRepository;
@@ -20,5 +22,15 @@ public class VehicleService {
 
     int vehicleId = vehicleRepository.save(vehicle).getId();
     log.debug(String.format("Successfully registered vehicle under ID: %d", vehicleId));
+  }
+
+  public void updateVehicle(Integer vehicleId, UpdateVehicleDto dto) {
+    Vehicle vehicle = vehicleRepository.findById(vehicleId)
+                                       .orElseThrow(VehicleNotFoundException::new);
+
+    vehicle.setHourPrice(dto.hourlyPrice().orElse(vehicle.getHourPrice()));
+    vehicle.setDailyPrice(dto.dailyPrice().orElse(vehicle.getDailyPrice()));
+
+    vehicleRepository.save(vehicle);
   }
 }
