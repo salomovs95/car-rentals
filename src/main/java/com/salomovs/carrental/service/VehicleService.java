@@ -1,5 +1,7 @@
 package com.salomovs.carrental.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.salomovs.carrental.exception.VehicleNotFoundException;
@@ -32,5 +34,16 @@ public class VehicleService {
     vehicle.setDailyPrice(dto.dailyPrice().orElse(vehicle.getDailyPrice()));
 
     vehicleRepository.save(vehicle);
+  }
+
+  public List<Vehicle> retrieveVehicle() {
+    List<Vehicle> vhl = vehicleRepository.findAll();
+    return vhl;
+  }
+
+  public Vehicle retrieveVehicleInfo(Integer vehicleId) {
+    Vehicle vehicle = vehicleRepository.findById(vehicleId)
+                                       .orElseThrow(VehicleNotFoundException::new);
+    return vehicle;
   }
 }
