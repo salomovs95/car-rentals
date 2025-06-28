@@ -30,7 +30,7 @@ public class VehicleController {
   @PostMapping @ApiPostOperation(summary="Register a new vehicle")
   public ResponseEntity<Void> registerNewVehicle(@RequestBody @Valid NewVehicleDto body) {
     vehicleService.saveVehicle(body);
-    return ResponseEntity.status(HttpStatus.OK).build();
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @GetMapping @ApiGetOperation(summary="Retrieve a list of available vehicles")
