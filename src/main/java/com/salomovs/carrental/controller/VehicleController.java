@@ -47,6 +47,7 @@ public class VehicleController {
 
   @PatchMapping("/{vehicleId}") @ApiPatchOperation(summary="")
   public ResponseEntity<Void> updateVehicle(@PathVariable Integer vehicleId, @RequestBody UpdateVehicleDto body) {
+    vehicleService.updateVehicle(vehicleId, body);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 }
