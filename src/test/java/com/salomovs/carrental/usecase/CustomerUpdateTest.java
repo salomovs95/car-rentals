@@ -2,8 +2,6 @@ package com.salomovs.carrental.usecase;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
@@ -13,18 +11,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
 import com.salomovs.carrental.exception.CustomerNotFoundException;
 import com.salomovs.carrental.model.dto.UpdateCustomerDto;
-import com.salomovs.carrental.model.entity.Customer;
 import com.salomovs.carrental.model.repository.CustomerRepository;
 import com.salomovs.carrental.service.CustomerService;
 
+@Sql(scripts="/seed.sql", executionPhase=ExecutionPhase.BEFORE_TEST_CLASS)
 @SpringBootTest @Tag("UNIT_TESTS") @TestInstance(Lifecycle.PER_CLASS)
 public class CustomerUpdateTest {
-  @MockitoBean
+  @Autowired
   private CustomerRepository crMock;
   private CustomerService customerService;
 
@@ -35,22 +35,13 @@ public class CustomerUpdateTest {
 
   @Test
   void UpdateCustomerSuccessfull() {
-    when(crMock.findById(anyInt()))
-      .thenReturn(Optional.of(new Customer(998, "tax_id_001", "customer_name_001", "customer_001@email.com", "customer_phone_001")));
-
-    UpdateCustomerDto mockDto = new UpdateCustomerDto(Optional.empty(), Optional.of("+00 555 777 0167"));
-   
-    assertDoesNotThrow(()->customerService.updateCustomer(998, mockDto));
+    UpdateCustomerDto dto = new UpdateCustomerDto(Optional.empty(), Optional.of("+00 555 777 0167"));
+    assertDoesNotThrow(()->customerService.updateCustomer(997, dto));
   }
 
   @Test
   void UpdateCustomerFailUserNotFound() {
-    when(crMock.findById(anyInt()))
-      .thenReturn(Optional.empty());
-
-    UpdateCustomerDto mockDto = new UpdateCustomerDto(Optional.empty(), Optional.of("+00 555 777 0167"));
-
-    assertThrows(CustomerNotFoundException.class, ()->customerService.updateCustomer(998, mockDto));
-
+    UpdateCustomerDto dto = new UpdateCustomerDto(Optional.empty(), Optional.of("+00 555 777 0167"));
+    assertThrows(CustomerNotFoundException.class, ()->customerService.updateCustomer(999, dto));
   }
 }
