@@ -8,17 +8,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.salomovs.carrental.annotation.ApiGetOperation;
+import com.salomovs.carrental.annotation.ApiPatchOperation;
+import com.salomovs.carrental.annotation.ApiPostOperation;
 import com.salomovs.carrental.model.dto.RentalPlacementDto;
 import com.salomovs.carrental.model.entity.Customer;
 import com.salomovs.carrental.model.entity.Rental;
 import com.salomovs.carrental.model.entity.Vehicle;
-import com.salomovs.carrental.model.repository.RentalRepository;
 import com.salomovs.carrental.service.*;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,12 @@ public class RentalController {
 
     rentalService.placeRental(new RentalPlacementDto(c, v));
     return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
+  @PatchMapping("/{rentalId}") @ApiPatchOperation(summary="Return vehicle")
+  public ResponseEntity<Void> returnVehicle(Integer rentalId) {
+    rentalService.returnVehicle(rentalId);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @GetMapping

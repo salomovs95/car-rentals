@@ -1,6 +1,7 @@
 package com.salomovs.carrental.service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,17 @@ public class RentalService {
     log.debug("Vehicle rental successfully placed. Operation ID: " + rentalId);
   }
 
+  public void returnVehicle(Integer rentalId) {
+    Rental rental = findRental(rentalId);
+
+    rental.setReturnAt(LocalDateTime.now());
+    int amountToPay = calculateAmountToPay(rental);
+    rental.setAmountToPay(amountToPay);
+    rentalRepository.save(rental);
+
+    log.debug(String.format("Rental %d successfully ended", rental.getId()));
+  }
+
   public Page<Rental> listRentals(Pageable page) {
     return rentalRepository.findAll(page);
   }
@@ -34,5 +46,13 @@ public class RentalService {
                                     .orElseThrow(RentalNotFoundException::new);
 
     return rental;
+  }
+
+  private int calculateAmountToPay(Rental rental) {
+    long period = rental.getRentAt().until(rental.getReturnAt(), ChronoUnit.HOURS);
+    if (period > 12) {
+      return Math.ceilDiv((int) period, 24) * (rental.getVehicle().getDailyPrice()/100) * 100;
+    }
+    return ((int) period) * (rental.getVehicle().getHourPrice()/100) * 100;
   }
 }
