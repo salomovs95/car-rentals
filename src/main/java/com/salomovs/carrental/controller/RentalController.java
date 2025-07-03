@@ -32,7 +32,7 @@ public class RentalController {
   private final CustomerService customerService;
   private final VehicleService vehicleService;
 
-  @PostMapping("/place/{customerId}/{vehicleId}")
+  @PostMapping("/place/{customerId}/{vehicleId}") @ApiPostOperation(summary="Place a new rental")
   public ResponseEntity<Void> placeARent(Integer customerId, Integer vehicleId) {
     Customer c = customerService.findCustomer(customerId);
     Vehicle v = vehicleService.retrieveVehicleInfo(vehicleId);
@@ -47,7 +47,7 @@ public class RentalController {
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
-  @GetMapping
+  @GetMapping @ApiGetOperation(summary="Retrieve a rental's paginated list")
   public ResponseEntity<Page<Rental>> getRentalList(@RequestParam(name="page") Optional<Integer> pageNumber,
                                                     @RequestParam(name="limit") Optional<Integer> pageSize) {
     Pageable page = PageRequest.of(pageNumber.orElse(0), pageSize.orElse(20));
@@ -55,7 +55,7 @@ public class RentalController {
     return ResponseEntity.status(HttpStatus.OK).body(res);
   }
 
-  @GetMapping("/{rentalId}")
+  @GetMapping("/{rentalId}") @ApiGetOperation(summary="Retrieve info 'bout a given rental")
   public ResponseEntity<Rental> getRentalInfo(@PathVariable Integer rentalId) {
     Rental rental = rentalService.findRental(rentalId);
     return ResponseEntity.status(HttpStatus.OK).body(rental);
