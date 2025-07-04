@@ -1,11 +1,12 @@
 package com.salomovs.carrental.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salomovs.carrental.exception.VehicleNotFoundException;
 import com.salomovs.carrental.model.dto.NewVehicleDto;
+import com.salomovs.carrental.model.dto.PageableResponse;
 import com.salomovs.carrental.model.dto.UpdateVehicleDto;
 import com.salomovs.carrental.model.entity.Plate;
 import com.salomovs.carrental.model.entity.Vehicle;
@@ -36,9 +37,9 @@ public class VehicleService {
     vehicleRepository.save(vehicle);
   }
 
-  public List<Vehicle> retrieveVehicle() {
-    List<Vehicle> vhl = vehicleRepository.findAll();
-    return vhl;
+  public PageableResponse<Vehicle> retrieveVehicle(Pageable page) {
+    Page<Vehicle> data = vehicleRepository.findAll(page);
+    return new PageableResponse<>(data.hasNext(), data.hasPrevious(), data.getContent());
   }
 
   public Vehicle retrieveVehicleInfo(Integer vehicleId) {
