@@ -2,7 +2,6 @@ package com.salomovs.carrental.controller;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.salomovs.carrental.annotation.ApiGetOperation;
 import com.salomovs.carrental.annotation.ApiPatchOperation;
 import com.salomovs.carrental.annotation.ApiPostOperation;
+import com.salomovs.carrental.model.dto.PageableResponse;
 import com.salomovs.carrental.model.dto.RentalPlacementDto;
 import com.salomovs.carrental.model.entity.Customer;
 import com.salomovs.carrental.model.entity.Rental;
@@ -48,10 +48,9 @@ public class RentalController {
   }
 
   @GetMapping @ApiGetOperation(summary="Retrieve a rental's paginated list")
-  public ResponseEntity<Page<Rental>> getRentalList(@RequestParam(name="page") Optional<Integer> pageNumber,
-                                                    @RequestParam(name="limit") Optional<Integer> pageSize) {
+  public ResponseEntity<PageableResponse<Rental>> getRentalList(@RequestParam(name="page") Optional<Integer> pageNumber, @RequestParam(name="limit") Optional<Integer> pageSize) {
     Pageable page = PageRequest.of(pageNumber.orElse(0), pageSize.orElse(20));
-    Page<Rental> res = rentalService.listRentals(page);
+    PageableResponse<Rental> res = rentalService.listRentals(page);
     return ResponseEntity.status(HttpStatus.OK).body(res);
   }
 

@@ -40,9 +40,9 @@ public class CustomerController {
   }
 
   @GetMapping @ApiGetOperation(summary="Retrieves a paginated list of customers")
-  public ResponseEntity<PageableResponse<Customer>> listCustomers(@RequestParam Optional<Integer> page) {
+  public ResponseEntity<PageableResponse<Customer>> listCustomers(@RequestParam Optional<Integer> page, @RequestParam Optional<Integer> limit) {
     int pageNumber = page.orElse(0);
-    Pageable pageRequest = PageRequest.of(pageNumber, 20);
+    Pageable pageRequest = PageRequest.of(pageNumber, limit.orElse(20));
     PageableResponse<Customer> response = customerService.retrieveCustomersList(pageRequest);
     
     return ResponseEntity.status(HttpStatus.OK).body(response);

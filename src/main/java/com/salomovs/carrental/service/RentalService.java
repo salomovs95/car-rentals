@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salomovs.carrental.exception.RentalNotFoundException;
+import com.salomovs.carrental.model.dto.PageableResponse;
 import com.salomovs.carrental.model.dto.RentalPlacementDto;
 import com.salomovs.carrental.model.entity.Rental;
 import com.salomovs.carrental.model.repository.RentalRepository;
@@ -37,8 +38,9 @@ public class RentalService {
     log.debug(String.format("Rental %d successfully ended", rental.getId()));
   }
 
-  public Page<Rental> listRentals(Pageable page) {
-    return rentalRepository.findAll(page);
+  public PageableResponse<Rental> listRentals(Pageable page) {
+    Page<Rental> data = rentalRepository.findAll(page);
+    return new PageableResponse<>(data.hasNext(), data.hasPrevious(), data.getContent());
   }
 
   public Rental findRental(Integer rentalId) {
