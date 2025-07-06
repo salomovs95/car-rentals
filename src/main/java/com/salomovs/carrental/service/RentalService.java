@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.salomovs.carrental.exception.InvoiceProcessingException;
 import com.salomovs.carrental.exception.RentalNotFoundException;
 import com.salomovs.carrental.model.dto.InvoiceResponseDto;
 import com.salomovs.carrental.model.dto.PageableResponse;
@@ -32,6 +33,18 @@ public class RentalService {
   public void returnVehicle(Integer rentalId) {
     Rental rental = rentalRepository.findById(rentalId)
                                     .orElseThrow(RentalNotFoundException::new);
+
+    LocalDateTime returnDate = LocalDateTime.now();
+
+    if (returnDate.isBefore(rental.getRentAt())) {
+      throw new InvoiceProcessingException("Invalid return date");
+    }
+
+    if (returnDate.getDayOfMonth()==rental.getRentAt().getDayOfMonth() &&
+        returnDate.getMonthValue()==rental.getRentAt().getMonthValue() &&
+        returnDate.getYear()==rental.getRentAt().getYear()) {
+      throw new InvoiceProcessingException("Can't return vehicle same day of it's rental");
+    }
 
     rental.setReturnAt(LocalDateTime.now());
     rentalRepository.save(rental);

@@ -17,14 +17,14 @@ public record InvoiceResponseDto(
   Customer customer,
   Vehicle vehicle
 ) {
-  private Integer period() {
+  private Integer duration() {
     if (returnAt() == null) return 0;
     return Integer.valueOf(""+rentAt().until(returnAt(), ChronoUnit.HOURS));
   }
 
   public Integer taxes() {
     if (returnAt() == null) return 0;
-    double taxRate = period() > 12 ? 0.25 : 0.2;
+    double taxRate = duration() > 12 ? 0.25 : 0.2;
     return (int) ((subTotal()/100) * taxRate * 100);
   }
 
@@ -33,11 +33,11 @@ public record InvoiceResponseDto(
 
     Vehicle v = vehicle();
 
-    int period = period();
-    int basePrice = period > 12 ? v.getDailyPrice() : v.getHourPrice();
+    int duration = duration();
+    int basePrice = duration > 12 ? v.getDailyPrice() : v.getHourPrice();
 
-    if (period > 12) return Math.ceilDiv(period, 24) * (basePrice/100) * 100;
-    return (period) * (basePrice/100) * 100;
+    if (duration > 12) return Math.ceilDiv(duration, 24) * (basePrice/100) * 100;
+    return (duration) * (basePrice/100) * 100;
   }
 
   public Integer totals() {
