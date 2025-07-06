@@ -13,5 +13,5 @@ INSERT INTO tbl_vehicles
   (999, 'Fiat', 'UNO Scad', 18000, 975, '19B73', 'Brazil');
 
 INSERT INTO tbl_rentals
-  (id, customer_id, vehicle_id, rent_at, amount_to_pay) VALUES
-  (899, 996, 999, '2025-05-01 12:45', 0);
+  (id, customer_id, vehicle_id, rent_at) VALUES
+  (899, 996, 999, '2025-05-01 12:45');
