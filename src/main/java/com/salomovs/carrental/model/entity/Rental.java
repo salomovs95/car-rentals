@@ -1,6 +1,5 @@
 package com.salomovs.carrental.model.entity;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -17,8 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import com.salomovs.carrental.model.enums.RentalConstant;
-
 @Entity @Table(name="tbl_rentals")
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class Rental {
@@ -28,8 +25,6 @@ public class Rental {
   private LocalDateTime rentAt;
   private LocalDateTime returnAt;
 
-  private Integer amountToPay;
-
   @ManyToOne(fetch=FetchType.EAGER) @JoinColumn(name="vehicle_id", referencedColumnName="id")
   private Vehicle vehicle;
 
@@ -37,7 +32,6 @@ public class Rental {
   private Customer customer;
 
   public Rental(LocalDateTime rentAt, Customer customer, Vehicle vehicle) {
-    this.amountToPay = 0;
     this.rentAt = rentAt;
     this.customer = customer;
     this.vehicle = vehicle;
@@ -45,12 +39,7 @@ public class Rental {
 
   @Override
   public String toString() {
-    String data = "{ id:%d, rent:%s, return:%s, customer:%s, vehicle:%s, amount:%d }";
-    return String.format(data, id, rentAt, returnAt, customer, vehicle, amountToPay);
-  }
-
-  public static Double calculateInterval(Rental rental) {
-    if (rental.getReturnAt() == null) return Duration.between(rental.getRentAt(), LocalDateTime.now()).getSeconds() / RentalConstant.HOUR_SECONDS;
-    return Duration.between(rental.getRentAt(), rental.getReturnAt()).getSeconds() / RentalConstant.HOUR_SECONDS;
+    String data = "{ id:%d, rent:%s, return:%s, customer:%s, vehicle:%s }";
+    return String.format(data, id, rentAt, returnAt, customer, vehicle);
   }
 }

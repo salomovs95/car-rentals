@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.salomovs.carrental.annotation.ApiGetOperation;
 import com.salomovs.carrental.annotation.ApiPatchOperation;
 import com.salomovs.carrental.annotation.ApiPostOperation;
+import com.salomovs.carrental.model.dto.InvoiceResponseDto;
 import com.salomovs.carrental.model.dto.PageableResponse;
 import com.salomovs.carrental.model.dto.RentalPlacementDto;
 import com.salomovs.carrental.model.entity.Customer;
-import com.salomovs.carrental.model.entity.Rental;
 import com.salomovs.carrental.model.entity.Vehicle;
 import com.salomovs.carrental.service.*;
 
@@ -48,15 +48,15 @@ public class RentalController {
   }
 
   @GetMapping @ApiGetOperation(summary="Retrieve a rental's paginated list")
-  public ResponseEntity<PageableResponse<Rental>> getRentalList(@RequestParam(name="page") Optional<Integer> pageNumber, @RequestParam(name="limit") Optional<Integer> pageSize) {
+  public ResponseEntity<PageableResponse<InvoiceResponseDto>> getRentalList(@RequestParam(name="page") Optional<Integer> pageNumber, @RequestParam(name="limit") Optional<Integer> pageSize) {
     Pageable page = PageRequest.of(pageNumber.orElse(0), pageSize.orElse(20));
-    PageableResponse<Rental> res = rentalService.listRentals(page);
+    PageableResponse<InvoiceResponseDto> res = rentalService.listRentals(page);
     return ResponseEntity.status(HttpStatus.OK).body(res);
   }
 
   @GetMapping("/{rentalId}") @ApiGetOperation(summary="Retrieve info 'bout a given rental")
-  public ResponseEntity<Rental> getRentalInfo(@PathVariable Integer rentalId) {
-    Rental rental = rentalService.findRental(rentalId);
-    return ResponseEntity.status(HttpStatus.OK).body(rental);
+  public ResponseEntity<InvoiceResponseDto> getRentalInfo(@PathVariable Integer rentalId) {
+    InvoiceResponseDto invoice = rentalService.findRental(rentalId);
+    return ResponseEntity.status(HttpStatus.OK).body(invoice);
   }
 }

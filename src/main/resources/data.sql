@@ -108,6 +108,6 @@ INSERT INTO tbl_vehicles (id, model, brand, plate_number, plate_country, hour_pr
   (997, 'Camaro SS 1962', 'Chevrolett', '18D4C0', 'Brazil', 1235, 29640),
   (998, 'Porsche 911 Carrera', 'Porsche', '82D90A', 'USA', 2459, 59016);
 
-INSERT INTO tbl_rentals (id, vehicle_id, customer_id, rent_at, return_at, amount_to_pay) VALUES
-  (2001, 997, 1012, '2025-01-23 14:05:23', '2025-02-16 10:23:05', 918840),
-  (2002, 998, 1012, '2025-05-10 09:56:09', NULL, 0);
+INSERT INTO tbl_rentals (id, vehicle_id, customer_id, rent_at, return_at) VALUES
+  (2001, 997, 1012, '2025-01-23 14:05:23', '2025-02-16 10:23:05'),
+  (2002, 998, 1012, '2025-05-10 09:56:09', NULL);
